@@ -10,7 +10,10 @@ use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ApiResource
+ * @ApiResource(
+ * itemOperations={"GET","PUT"}
+ * )
+ *
  */
 class User implements UserInterface
 {
