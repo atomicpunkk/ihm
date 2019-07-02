@@ -7,11 +7,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
-
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ApiResource(
- * itemOperations={"GET","PUT"}
+ * itemOperations={"GET","PUT"},
+ * normalizationContext={"groups"={"users_read"}}
  * )
  *
  */
@@ -21,32 +23,38 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"users_read", "machines_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"users_read", "machines_read"})
      */
     private $username;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"users_read", "machines_read"})
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups({"users_read", "machines_read"})
      */
     private $password;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Material", mappedBy="author")
+     * @Groups({"users_read", "machines_read"})
      */
     private $materials;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Machine", mappedBy="author")
+     * @Groups({"users_read"})
      */
     private $machines;
 

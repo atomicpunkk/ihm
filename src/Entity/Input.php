@@ -4,10 +4,14 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\InputRepository")
- * @ApiResource
+ * @ApiResource(
+ * normalizationContext={"groups"={"inputs_read"}}
+ * )
  */
 class Input
 {
@@ -15,23 +19,27 @@ class Input
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"inputs_read"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Machine", inversedBy="inputs")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"inputs_read"})
      */
     private $machine;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"inputs_read"})
      */
     private $number;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Material", inversedBy="inputs")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"inputs_read"})
      */
     private $material;
 

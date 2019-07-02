@@ -6,10 +6,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MaterialRepository")
- * @ApiResource
+ * @ApiResource(
+ * normalizationContext={"groups"={"materials_read"}}
+ * )
  */
 class Material
 {
@@ -17,27 +21,32 @@ class Material
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"materials_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"materials_read"})
      */
     private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="materials")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"materials_read"})
      */
     private $author;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Input", mappedBy="material")
+     * @Groups({"materials_read"})
      */
     private $inputs;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Output", mappedBy="material")
+     * @Groups({"materials_read"})
      */
     private $outputs;
 

@@ -6,10 +6,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MachineRepository")
- * @ApiResource
+ * @ApiResource(
+ * normalizationContext={"groups"={"machines_read"}}
+ * )
  */
 class Machine
 {
@@ -17,27 +21,32 @@ class Machine
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"machines_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"machines_read"})
      */
     private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="machines")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"machines_read"})
      */
     private $author;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Input", mappedBy="machine")
+     * @Groups({"machines_read"})
      */
     private $inputs;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Output", mappedBy="machine")
+     * @Groups({"machines_read"})
      */
     private $outputs;
 
